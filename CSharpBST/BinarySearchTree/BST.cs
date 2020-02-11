@@ -265,7 +265,7 @@ namespace BinarySearchTree
         }
     }
 
-    class Program
+    class BST
     {
         static void Main(string[] args)
         {
