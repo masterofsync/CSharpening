@@ -8,12 +8,21 @@ namespace BinarySearchTree
 {
     interface IBinarySearchTree
     {
-        void Insert(int val);
-        bool Contains(int val);
-        void DisplayPreOrder();
-        void DisplayInOrder();
-        void DisplayPostOrder();
-        void ReOrder();
+        // recursive
+        void InsertRecursively(int val);
+        bool ContainsRecursively(int val);
+        void DisplayPreOrderRecursively();
+        void DisplayInOrderRecursively();
+        void DisplayPostOrderRecursively();
+        void ReOrderRecursively();
+
+        // iterative
+        void InsertIteratively(int val);
+        bool ContainsIteratively(int val);
+        void DisplayPreOrderIteratively();
+        void DisplayInOrderIteratively();
+        void DisplayPostOrderIteratively();
+        void ReOrderIteratively();
     }
 
     /// <summary>
@@ -31,20 +40,21 @@ namespace BinarySearchTree
         }
     }
 
-    public class BinarySearchTreeRecursively : IBinarySearchTree
+    public class BinarySearchTree: IBinarySearchTree
     {
-        private Node root;
+        public Node root;
 
-        public BinarySearchTreeRecursively(Node root)
+        public BinarySearchTree(Node root)
         {
             this.root = root;
         }
 
+        #region Recursively
         /// <summary>
         /// Insert Value in Node
         /// </summary>
         /// <param name="val">Integer Value</param>
-        public void Insert(int val)
+        public void InsertRecursively(int val)
         {
             try
             {
@@ -86,7 +96,7 @@ namespace BinarySearchTree
         /// </summary>
         /// <param name="val">Integer Value</param>
         /// <returns></returns>
-        public bool Contains(int val)
+        public bool ContainsRecursively(int val)
         {
             return ContainsRecursively(root, val);
 
@@ -122,29 +132,31 @@ namespace BinarySearchTree
         /// <summary>
         /// Display data Pre-order
         /// </summary>
-        public void DisplayPreOrder()
+        public void DisplayPreOrderRecursively()
         {
             try
             {
                 Node tempNode = root;
 
-                DisplayInOrderRecursively(tempNode);
+                Console.WriteLine("Pre-Order Recursively:");
+
+                DisplayPreOrderRecursively(tempNode);
 
                 // local function such that user need not send a node as parameter & keeping track of node is easier
-                void DisplayInOrderRecursively(Node node)
+                void DisplayPreOrderRecursively(Node node)
                 {
                     // print the value
                     Console.WriteLine(node.Value);
                     // Go to the left most leaf
                     if (node.left != null)
                     {
-                        DisplayInOrderRecursively(node.left);
+                        DisplayPreOrderRecursively(node.left);
                     }
 
                     // Go to the right
                     if (node.right != null)
                     {
-                        DisplayInOrderRecursively(node.right);
+                        DisplayPreOrderRecursively(node.right);
                     }
                 }
             }
@@ -157,11 +169,13 @@ namespace BinarySearchTree
         /// <summary>
         /// Display data In-order
         /// </summary>
-        public void DisplayInOrder()
+        public void DisplayInOrderRecursively()
         {
             try
             {
                 Node tempNode = root;
+
+                Console.WriteLine("In-Order Recursively:");
 
                 DisplayInOrderRecursively(tempNode);
 
@@ -193,27 +207,28 @@ namespace BinarySearchTree
         /// <summary>
         /// Display data Post-order
         /// </summary>
-        public void DisplayPostOrder()
+        public void DisplayPostOrderRecursively()
         {
             try
             {
                 Node tempNode = root;
+                Console.WriteLine("Post-Order Recursively:");
 
-                DisplayInOrderRecursively(tempNode);
+                DisplayPostOrderRecursively(tempNode);
 
                 // local function such that user need not send a node as parameter & keeping track of node is easier
-                void DisplayInOrderRecursively(Node node)
+                void DisplayPostOrderRecursively(Node node)
                 {
                     // Go to the left most leaf
                     if (node.left != null)
                     {
-                        DisplayInOrderRecursively(node.left);
+                        DisplayPostOrderRecursively(node.left);
                     }
 
                     // Go to the right
                     if (node.right != null)
                     {
-                        DisplayInOrderRecursively(node.right);
+                        DisplayPostOrderRecursively(node.right);
                     }
 
                     // print the value
@@ -226,61 +241,78 @@ namespace BinarySearchTree
             }
         }
 
-        public void ReOrder()
+        public void ReOrderRecursively()
         {
             throw new NotImplementedException();
         }
-    }
+        #endregion
 
-    public class BinarySearchTreeIteratively : IBinarySearchTree
-    {
-        public bool Contains(int val)
+        #region Iteratively
+        /// <summary>
+        /// Display Tree data in order iteratively
+        /// </summary>
+        public void DisplayInOrderIteratively()
+        {
+            // Solving using a stack
+            Stack<Node> stack = new Stack<Node>();
+
+            Node tempNode = root;
+
+            while (tempNode != null || stack.Any())
+            {
+                // Iterate to the left most; the first item for in order traversal.
+                while (tempNode != null)
+                {
+                    stack.Push(tempNode);
+                    tempNode = tempNode.left;
+                }
+
+                tempNode = stack.Pop();
+                Console.WriteLine(tempNode.Value);
+                tempNode = tempNode.right;
+            }
+        }
+
+        public void InsertIteratively(int val)
         {
             throw new NotImplementedException();
         }
 
-        public void DisplayInOrder()
+        public bool ContainsIteratively(int val)
         {
             throw new NotImplementedException();
         }
 
-        public void DisplayPostOrder()
+        public void DisplayPreOrderIteratively()
         {
             throw new NotImplementedException();
         }
 
-        public void DisplayPreOrder()
+        public void DisplayPostOrderIteratively()
         {
             throw new NotImplementedException();
         }
 
-        public void Insert(int val)
+        public void ReOrderIteratively()
         {
             throw new NotImplementedException();
         }
-
-        public void ReOrder()
-        {
-            throw new NotImplementedException();
-        }
+        #endregion
     }
 
     class BST
     {
         static void Main(string[] args)
         {
-            // Initialize 
+            List<int> arrayBSTValues = new List<int>() {8,6,11,4,7,15,14};
 
-            var recursiveBST = new BinarySearchTreeRecursively(null);
+            // Initialize 
+            var BST = new BinarySearchTree(null);
+
+            #region Recursive BST
 
             // Insert Data
-            recursiveBST.Insert(8);
-            recursiveBST.Insert(6);
-            recursiveBST.Insert(11);
-            recursiveBST.Insert(4);
-            recursiveBST.Insert(7);
-            recursiveBST.Insert(15);
-            recursiveBST.Insert(14);
+            arrayBSTValues.ForEach(x => BST.InsertRecursively(x));           
 
             // Search for Data
 
@@ -289,14 +321,25 @@ namespace BinarySearchTree
             // Modify Data
 
             // Display all data
-            Console.WriteLine("In-Order:");
-            recursiveBST.DisplayInOrder();
+            
+            BST.DisplayInOrderRecursively();
             Console.WriteLine();
-            Console.WriteLine("Pre-Order:");
-            recursiveBST.DisplayPreOrder();
+            BST.DisplayPreOrderRecursively();
             Console.WriteLine();
-            Console.WriteLine("Post-Order:");
-            recursiveBST.DisplayPostOrder();
+            BST.DisplayPostOrderRecursively();
+            Console.WriteLine();
+            #endregion
+
+            #region Iterative BST
+            // Just add recursively for now
+            arrayBSTValues.ForEach(x => BST.InsertRecursively(x));
+
+            // Display all data
+            Console.WriteLine("Display Inorder Iteratively:");
+            BST.DisplayInOrderIteratively();
+            Console.WriteLine();
+
+            #endregion
             Console.ReadKey();
         }
     }
