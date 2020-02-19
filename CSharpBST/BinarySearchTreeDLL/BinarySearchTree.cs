@@ -314,14 +314,118 @@ namespace BinarySearchTreeDLLNamespace
             }
         }
 
+        /// <summary>
+        /// Insert Iteratively given integer value.
+        /// </summary>
+        /// <param name="val"></param>
         public void InsertIteratively(int val)
         {
-            throw new NotImplementedException();
+            /*
+             * While loop, 
+             * if user submitted val is smaller than node value:
+             * check if left is null, if it is, create new node with the val else go left
+             * if user submitted val is greater than node value:
+             * check if right is null, if it is, create new node with the val else go right
+             */
+            try
+            {
+                var tempNode = this.root;
+
+                if(tempNode==null)
+                {
+                    root = new Node(val);
+                    tempNode = root;
+                    return;
+                }
+
+                while (true)
+                {
+                    if (val < tempNode.Value)
+                    {
+                        if (tempNode.left == null)
+                        {
+                            tempNode.left = new Node(val);
+                            break;
+                        }
+                        else
+                        {
+                            tempNode = tempNode.left;
+                        }
+                    }
+                    else // if equal or greater
+                    {
+                        if (tempNode.right == null)
+                        {
+                            tempNode.right = new Node(val);
+                            break;
+                        }
+                        else
+                        {
+                            tempNode = tempNode.right;
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
+        /// <summary>
+        /// Check if bst contains the value provided by user.
+        /// </summary>
+        /// <param name="val"></param>
+        /// <returns></returns>
         public bool ContainsIteratively(int val)
         {
-            throw new NotImplementedException();
+            /*
+             * Assuming a balanced BST: Do same as for insert, 
+             * except check for val equals instead of adding new node. O(logn)
+             * If not balanced, do inorder search and return true. O(n) worst.
+             */
+
+            if (root == null)
+                return false;
+
+            var tempNode = root;
+
+            #region balanced
+            while (tempNode!=null)
+            {
+                if(val==tempNode.Value)
+                {
+                    return true;
+                }
+                else if(val<tempNode.Value)
+                {
+                    if(tempNode.left!=null)
+                    {
+                        tempNode = tempNode.left;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                else if(val>tempNode.Value)
+                {
+                    if(tempNode.right!=null)
+                    {
+                        tempNode = tempNode.right;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+            return false;
+            #endregion
+
+            #region unbalanced
+                
+            #endregion
         }
 
         public void DisplayPreOrderIteratively()
