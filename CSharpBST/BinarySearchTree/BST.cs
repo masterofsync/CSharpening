@@ -47,12 +47,19 @@ namespace BinarySearchTreeTestApplicationNamespace
         {
             #region Iterative BST
             // Just add recursively for now
-            arrayBSTValues.ForEach(x => bst.InsertIteratively(x));
+            //arrayBSTValues.ForEach(x => bst.InsertIteratively(x));
 
             // Display all data
-            Console.WriteLine("Display Inorder Iteratively:");
+            Console.WriteLine("Inorder Iteratively:");
             bst.DisplayInOrderIteratively();
             Console.WriteLine();
+            Console.WriteLine("Preorder Iteratively:");
+            bst.DisplayPreOrderIteratively();
+            Console.WriteLine();
+            Console.WriteLine("Postorder Iteratively:");
+            //bst.DisplayPostOrderIteratively();
+            Console.WriteLine();
+
 
             Console.WriteLine(bst.ContainsIteratively(14));
             Console.WriteLine(bst.ContainsIteratively(8));

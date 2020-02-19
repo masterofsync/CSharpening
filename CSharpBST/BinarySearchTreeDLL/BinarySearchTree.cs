@@ -331,7 +331,7 @@ namespace BinarySearchTreeDLLNamespace
             {
                 var tempNode = this.root;
 
-                if(tempNode==null)
+                if (tempNode == null)
                 {
                     root = new Node(val);
                     tempNode = root;
@@ -391,46 +391,82 @@ namespace BinarySearchTreeDLLNamespace
             var tempNode = root;
 
             #region balanced
-            while (tempNode!=null)
-            {
-                if(val==tempNode.Value)
-                {
-                    return true;
-                }
-                else if(val<tempNode.Value)
-                {
-                    if(tempNode.left!=null)
-                    {
-                        tempNode = tempNode.left;
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                }
-                else if(val>tempNode.Value)
-                {
-                    if(tempNode.right!=null)
-                    {
-                        tempNode = tempNode.right;
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                }
-            }
-            return false;
+            //while (tempNode!=null)
+            //{
+            //    if(val==tempNode.Value)
+            //    {
+            //        return true;
+            //    }
+            //    else if(val<tempNode.Value)
+            //    {
+            //        if(tempNode.left!=null)
+            //        {
+            //            tempNode = tempNode.left;
+            //        }
+            //        else
+            //        {
+            //            return false;
+            //        }
+            //    }
+            //    else if(val>tempNode.Value)
+            //    {
+            //        if(tempNode.right!=null)
+            //        {
+            //            tempNode = tempNode.right;
+            //        }
+            //        else
+            //        {
+            //            return false;
+            //        }
+            //    }
+            //}
+            //return false;
             #endregion
 
             #region unbalanced
-                
+            if (tempNode.Value == val) return true;
+
+            Stack<Node> nodesStack = new Stack<Node>();
+
+            while (tempNode != null || nodesStack.Any())
+            {
+                // Iterate to the left most; the first item for in order traversal.
+                while (tempNode != null)
+                {
+                    if (tempNode.Value == val) return true;
+                    nodesStack.Push(tempNode);
+                    tempNode = tempNode.left;
+                }
+
+                tempNode = nodesStack.Pop();
+
+                if (tempNode.Value == val) return true;
+
+                tempNode = tempNode.right;
+            }
+            return false;
+
             #endregion
         }
 
         public void DisplayPreOrderIteratively()
         {
-            throw new NotImplementedException();
+            Stack<Node> nodesStack = new Stack<Node>();
+
+            var tempNode = root;
+
+            while (nodesStack.Any() || tempNode != null)
+            {
+                // traverse all the way to the left & push nodes to stack
+                while (tempNode!= null)
+                {
+                    Console.WriteLine(tempNode.Value);
+                    nodesStack.Push(tempNode);
+                    tempNode = tempNode.left;
+                }
+                tempNode = nodesStack.Pop();
+                tempNode = tempNode.right;
+            }
         }
 
         public void DisplayPostOrderIteratively()
