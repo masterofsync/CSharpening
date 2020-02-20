@@ -57,7 +57,7 @@ namespace BinarySearchTreeTestApplicationNamespace
             bst.DisplayPreOrderIteratively();
             Console.WriteLine();
             Console.WriteLine("Postorder Iteratively:");
-            //bst.DisplayPostOrderIteratively();
+            bst.DisplayPostOrderIteratively();
             Console.WriteLine();
 
 

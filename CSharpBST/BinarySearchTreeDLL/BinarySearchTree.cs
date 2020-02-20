@@ -471,7 +471,39 @@ namespace BinarySearchTreeDLLNamespace
 
         public void DisplayPostOrderIteratively()
         {
-            throw new NotImplementedException();
+            Stack<Node> nodesStack = new Stack<Node>();
+            var tempNode = root;
+
+            while (nodesStack.Any() || tempNode!=null)
+            {
+                while (tempNode != null)
+                {
+                    if (tempNode.right != null)
+                    {
+                        nodesStack.Push(tempNode.right);
+                    }
+                    
+                    nodesStack.Push(tempNode);
+                    tempNode = tempNode.left;
+                }
+
+                tempNode = nodesStack.Pop();
+
+                if (tempNode?.right != null && nodesStack.Any() && tempNode.right == nodesStack.Peek())
+                {
+                    nodesStack.Pop();
+                    if(tempNode!=null)
+                    { 
+                        nodesStack.Push(tempNode);
+                    }
+                    tempNode = tempNode.right;
+                }
+                else
+                {
+                    Console.WriteLine(tempNode.Value);
+                    tempNode = null;
+                }
+            }
         }
 
         public void ReOrderIteratively()
