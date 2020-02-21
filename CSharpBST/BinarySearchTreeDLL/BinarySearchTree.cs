@@ -12,6 +12,8 @@ namespace BinarySearchTreeDLLNamespace
         void DisplayPreOrderRecursively();
         void DisplayInOrderRecursively();
         void DisplayPostOrderRecursively();
+
+        int MaximumDepthRecursively(); 
         void ReOrderRecursively();
 
         // iterative
@@ -20,6 +22,8 @@ namespace BinarySearchTreeDLLNamespace
         void DisplayPreOrderIteratively();
         void DisplayInOrderIteratively();
         void DisplayPostOrderIteratively();
+
+        void MaximumDepthIteratively();
         void ReOrderIteratively();
     }
 
@@ -274,6 +278,31 @@ namespace BinarySearchTreeDLLNamespace
             }
         }
 
+        /// <summary>
+        /// Maximum depth/height of the tree recursively.
+        /// </summary>
+        public int MaximumDepthRecursively()
+        {
+            return MaximumDepthRecursively(root);
+
+            // internal function for recursion
+            int MaximumDepthRecursively(Node node)
+            {
+                if(node==null)
+                {
+                    return 0;
+                }
+
+                int left = MaximumDepthRecursively(node.left);
+                int right = MaximumDepthRecursively(node.right);
+
+                return Math.Max(left, right) + 1; // 1 for the node itself.
+            }
+        }
+
+        /// <summary>
+        /// Not implemented yet.
+        /// </summary>
         public void ReOrderRecursively()
         {
             throw new NotImplementedException();
@@ -449,6 +478,9 @@ namespace BinarySearchTreeDLLNamespace
             #endregion
         }
 
+        /// <summary>
+        /// Display data in pre-order iteratively
+        /// </summary>
         public void DisplayPreOrderIteratively()
         {
             Stack<Node> nodesStack = new Stack<Node>();
@@ -469,6 +501,10 @@ namespace BinarySearchTreeDLLNamespace
             }
         }
 
+
+        /// <summary>
+        /// Display data in post-order iteratively
+        /// </summary>
         public void DisplayPostOrderIteratively()
         {
             Stack<Node> nodesStack = new Stack<Node>();
@@ -506,7 +542,19 @@ namespace BinarySearchTreeDLLNamespace
             }
         }
 
+
+        /// <summary>
+        /// Not implemented yet.
+        /// </summary>
         public void ReOrderIteratively()
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Not implemented yet.
+        /// </summary>
+        public void MaximumDepthIteratively()
         {
             throw new NotImplementedException();
         }

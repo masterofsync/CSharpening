@@ -26,6 +26,9 @@ namespace BinarySearchTreeTestApplicationNamespace
             // Insert Data
             arrayBSTValues.ForEach(x => bst.InsertRecursively(x));
 
+            // Maximum Depth
+            Console.WriteLine($"Maximum Depth:{bst.MaximumDepthRecursively()}");
+
             // Search for Data
 
             // Delete specific Data
