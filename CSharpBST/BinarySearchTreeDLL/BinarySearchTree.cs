@@ -8,23 +8,23 @@ namespace BinarySearchTreeDLLNamespace
     {
         // recursive
         void InsertRecursively(int val);
-        bool ContainsRecursively(int val);
-        void DisplayPreOrderRecursively();
-        void DisplayInOrderRecursively();
-        void DisplayPostOrderRecursively();
+        bool ContainsRecursively(int val, Node userRoot = null);
+        void DisplayPreOrderRecursively(Node userRoot = null);
+        void DisplayInOrderRecursively(Node userRoot = null);
+        void DisplayPostOrderRecursively(Node userRoot = null);
 
-        int MaximumDepthRecursively(); 
-        void ReOrderRecursively();
+        int MaximumDepthRecursively(Node userRoot = null);
+        void ReOrderRecursively(Node userRoot = null);
 
         // iterative
-        void InsertIteratively(int val);
-        bool ContainsIteratively(int val);
-        void DisplayPreOrderIteratively();
-        void DisplayInOrderIteratively();
-        void DisplayPostOrderIteratively();
+        void InsertIteratively(int val, Node userRoot = null);
+        bool ContainsIteratively(int val, Node userRoot = null);
+        void DisplayPreOrderIteratively(Node userRoot = null);
+        void DisplayInOrderIteratively(Node userRoot = null);
+        void DisplayPostOrderIteratively(Node userRoot = null);
 
-        void MaximumDepthIteratively();
-        void ReOrderIteratively();
+        void MaximumDepthIteratively(Node userRoot);
+        void ReOrderIteratively(Node userRoot = null);
     }
 
     /// <summary>
@@ -98,11 +98,11 @@ namespace BinarySearchTreeDLLNamespace
         /// </summary>
         /// <param name="val">Integer Value</param>
         /// <returns></returns>
-        public bool ContainsRecursively(int val)
+        public bool ContainsRecursively(int val, Node userRoot = null)
         {
             try
             {
-                return ContainsRecursively(root, val);
+                return ContainsRecursively(userRoot == null ? this.root : userRoot, val);
 
                 /*
                  * Check if the current node is null & current node value matches the given value
@@ -148,11 +148,11 @@ namespace BinarySearchTreeDLLNamespace
         /// <summary>
         /// Display data Pre-order
         /// </summary>
-        public void DisplayPreOrderRecursively()
+        public void DisplayPreOrderRecursively(Node userRoot = null)
         {
             try
             {
-                Node tempNode = root;
+                Node tempNode = userRoot == null ? this.root : userRoot;
 
                 Console.WriteLine("Pre-Order Recursively:");
 
@@ -192,11 +192,11 @@ namespace BinarySearchTreeDLLNamespace
         /// <summary>
         /// Display data In-order
         /// </summary>
-        public void DisplayInOrderRecursively()
+        public void DisplayInOrderRecursively(Node userRoot = null)
         {
             try
             {
-                Node tempNode = root;
+                Node tempNode = userRoot == null ? this.root : userRoot;
 
                 Console.WriteLine("In-Order Recursively:");
 
@@ -237,11 +237,11 @@ namespace BinarySearchTreeDLLNamespace
         /// <summary>
         /// Display data Post-order
         /// </summary>
-        public void DisplayPostOrderRecursively()
+        public void DisplayPostOrderRecursively(Node userRoot = null)
         {
             try
             {
-                Node tempNode = root;
+                Node tempNode = userRoot == null ? this.root : userRoot;
                 Console.WriteLine("Post-Order Recursively:");
 
                 DisplayPostOrderRecursively(tempNode);
@@ -281,14 +281,14 @@ namespace BinarySearchTreeDLLNamespace
         /// <summary>
         /// Maximum depth/height of the tree recursively.
         /// </summary>
-        public int MaximumDepthRecursively()
+        public int MaximumDepthRecursively(Node userRoot = null)
         {
-            return MaximumDepthRecursively(root);
+            return MaximumDepthRecursively(userRoot == null ? root : userRoot);
 
             // internal function for recursion
             int MaximumDepthRecursively(Node node)
             {
-                if(node==null)
+                if (node == null)
                 {
                     return 0;
                 }
@@ -303,7 +303,7 @@ namespace BinarySearchTreeDLLNamespace
         /// <summary>
         /// Not implemented yet.
         /// </summary>
-        public void ReOrderRecursively()
+        public void ReOrderRecursively(Node userRoot = null)
         {
             throw new NotImplementedException();
         }
@@ -314,14 +314,14 @@ namespace BinarySearchTreeDLLNamespace
         /// <summary>
         /// Display Tree data in order iteratively
         /// </summary>
-        public void DisplayInOrderIteratively()
+        public void DisplayInOrderIteratively(Node userRoot = null)
         {
             try
             {
                 // Solving using a stack
                 Stack<Node> stack = new Stack<Node>();
 
-                Node tempNode = root;
+                Node tempNode = userRoot == null ? this.root : userRoot;
 
                 while (tempNode != null || stack.Any())
                 {
@@ -347,7 +347,8 @@ namespace BinarySearchTreeDLLNamespace
         /// Insert Iteratively given integer value.
         /// </summary>
         /// <param name="val"></param>
-        public void InsertIteratively(int val)
+        /// <param name="userRoot">root node</param>        
+        public void InsertIteratively(int val, Node userRoot = null)
         {
             /*
              * While loop, 
@@ -358,7 +359,7 @@ namespace BinarySearchTreeDLLNamespace
              */
             try
             {
-                var tempNode = this.root;
+                var tempNode = userRoot == null ? this.root : userRoot;
 
                 if (tempNode == null)
                 {
@@ -406,7 +407,7 @@ namespace BinarySearchTreeDLLNamespace
         /// </summary>
         /// <param name="val"></param>
         /// <returns></returns>
-        public bool ContainsIteratively(int val)
+        public bool ContainsIteratively(int val, Node userRoot = null)
         {
             /*
              * Assuming a balanced BST: Do same as for insert, 
@@ -417,7 +418,7 @@ namespace BinarySearchTreeDLLNamespace
             if (root == null)
                 return false;
 
-            var tempNode = root;
+            var tempNode = userRoot == null ? this.root : userRoot;
 
             #region balanced
             //while (tempNode!=null)
@@ -481,16 +482,16 @@ namespace BinarySearchTreeDLLNamespace
         /// <summary>
         /// Display data in pre-order iteratively
         /// </summary>
-        public void DisplayPreOrderIteratively()
+        public void DisplayPreOrderIteratively(Node userRoot = null)
         {
             Stack<Node> nodesStack = new Stack<Node>();
 
-            var tempNode = root;
+            var tempNode = userRoot == null ? this.root : userRoot;
 
             while (nodesStack.Any() || tempNode != null)
             {
                 // traverse all the way to the left & push nodes to stack
-                while (tempNode!= null)
+                while (tempNode != null)
                 {
                     Console.WriteLine(tempNode.Value);
                     nodesStack.Push(tempNode);
@@ -505,12 +506,12 @@ namespace BinarySearchTreeDLLNamespace
         /// <summary>
         /// Display data in post-order iteratively
         /// </summary>
-        public void DisplayPostOrderIteratively()
+        public void DisplayPostOrderIteratively(Node userRoot = null)
         {
             Stack<Node> nodesStack = new Stack<Node>();
-            var tempNode = root;
+            var tempNode = userRoot == null ? this.root : userRoot;
 
-            while (nodesStack.Any() || tempNode!=null)
+            while (nodesStack.Any() || tempNode != null)
             {
                 while (tempNode != null)
                 {
@@ -518,7 +519,7 @@ namespace BinarySearchTreeDLLNamespace
                     {
                         nodesStack.Push(tempNode.right);
                     }
-                    
+
                     nodesStack.Push(tempNode);
                     tempNode = tempNode.left;
                 }
@@ -528,8 +529,8 @@ namespace BinarySearchTreeDLLNamespace
                 if (tempNode?.right != null && nodesStack.Any() && tempNode.right == nodesStack.Peek())
                 {
                     nodesStack.Pop();
-                    if(tempNode!=null)
-                    { 
+                    if (tempNode != null)
+                    {
                         nodesStack.Push(tempNode);
                     }
                     tempNode = tempNode.right;
@@ -546,7 +547,7 @@ namespace BinarySearchTreeDLLNamespace
         /// <summary>
         /// Not implemented yet.
         /// </summary>
-        public void ReOrderIteratively()
+        public void ReOrderIteratively(Node userRoot = null)
         {
             throw new NotImplementedException();
         }
@@ -554,7 +555,7 @@ namespace BinarySearchTreeDLLNamespace
         /// <summary>
         /// Not implemented yet.
         /// </summary>
-        public void MaximumDepthIteratively()
+        public void MaximumDepthIteratively(Node userRoot = null)
         {
             throw new NotImplementedException();
         }
