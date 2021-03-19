@@ -60,31 +60,33 @@ namespace BinarySearchTreeDLLNamespace
         {
             try
             {
-                InsertRecursively(ref root, val);
+                if (this.root == null)
+                {
+                    root = new Node(val);
+                }
+                else
+                {
+                    this.root = Insert(this.root, val);
+                }
 
-                // local function such that user need not send a node as parameter & keeping track of node is easier
-                // ref such that the updates made in the node reflect the local root node variable.
-                void InsertRecursively(ref Node node, int value)
+                Node Insert(Node node, int value)
                 {
                     if (node == null)
                     {
                         node = new Node(val);
-                        return;
                     }
-
-                    // if value supplied is greater, go right
-                    if (val > node.Value)
+                    else
                     {
-                        InsertRecursively(ref node.right, value);
-                        return;
+                        if (node.Value > value)
+                        {
+                            node.left = Insert(node.left, val);
+                        }
+                        else
+                        {
+                            node.right = Insert(node.right, val);
+                        }
                     }
-
-                    // if value is smaller, go left
-                    if (val < node.Value)
-                    {
-                        InsertRecursively(ref node.left, value);
-                        return;
-                    }
+                    return node;
                 }
             }
             catch (Exception)
@@ -510,35 +512,24 @@ namespace BinarySearchTreeDLLNamespace
         {
             Stack<Node> nodesStack = new Stack<Node>();
             var tempNode = userRoot == null ? this.root : userRoot;
+            Node lastPoppedNode = null;
 
-            while (nodesStack.Any() || tempNode != null)
+            while (nodesStack.Count > 0 || tempNode != null)
             {
                 while (tempNode != null)
                 {
-                    if (tempNode.right != null)
-                    {
-                        nodesStack.Push(tempNode.right);
-                    }
-
                     nodesStack.Push(tempNode);
                     tempNode = tempNode.left;
                 }
 
-                tempNode = nodesStack.Pop();
-
-                if (tempNode?.right != null && nodesStack.Any() && tempNode.right == nodesStack.Peek())
+                if (nodesStack.Peek().right == null || nodesStack.Peek().right == lastPoppedNode)
                 {
-                    nodesStack.Pop();
-                    if (tempNode != null)
-                    {
-                        nodesStack.Push(tempNode);
-                    }
-                    tempNode = tempNode.right;
+                    lastPoppedNode = nodesStack.Pop();
+                    Console.WriteLine(lastPoppedNode.Value);
                 }
-                else
+                else if (nodesStack.Peek().right != null && nodesStack.Peek().right != lastPoppedNode)
                 {
-                    Console.WriteLine(tempNode.Value);
-                    tempNode = null;
+                    tempNode = nodesStack.Peek().right;
                 }
             }
         }
