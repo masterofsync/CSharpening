@@ -22,6 +22,7 @@ namespace BinarySearchTreeDLLNamespace
         void DisplayPreOrderIteratively(Node userRoot = null);
         void DisplayInOrderIteratively(Node userRoot = null);
         void DisplayPostOrderIteratively(Node userRoot = null);
+        bool RemoveIteratively(int val);
 
         void MaximumDepthIteratively(Node userRoot);
         void ReOrderIteratively(Node userRoot = null);
@@ -32,7 +33,7 @@ namespace BinarySearchTreeDLLNamespace
     /// </summary>
     public class Node
     {
-        public int Value { get; private set; }
+        public int Value { get; set; }
 
         public Node left;
         public Node right;
@@ -549,6 +550,156 @@ namespace BinarySearchTreeDLLNamespace
         public void MaximumDepthIteratively(Node userRoot = null)
         {
             throw new NotImplementedException();
+        }
+
+        public bool RemoveIteratively(int vl)
+        {
+            Node node = this.root;
+            Stack<Node> nodeStack = new Stack<Node>();
+            return Remove(node, vl);
+
+            bool Remove(Node root, int val)
+            {
+                if (root == null)
+                    return false;
+
+                // find the node that is to be removed and keep track of the previous node.
+                var (prevNode, currNode) = FindMatchingNodes(root, val);
+
+                if (currNode?.Value != val) return false;
+
+                //if currNode is leaf node 
+                if (currNode.left == null && currNode.right == null)
+                {
+                    //if only root node
+                    if (prevNode == null)
+                    {
+                        this.root = null;
+                    }
+                    else
+                    {
+                        if (prevNode?.right?.Value == val)
+                        {
+                            prevNode.right = null;
+                        }
+                        else if (prevNode?.left?.Value == val)
+                        {
+                            prevNode.left = null;
+                        }
+                    }
+                    return true;
+                }
+                // both right and left are not null
+                else if (currNode.left != null && currNode.right != null)
+                {
+                    // go to right
+                    Node nodeValueToReplace = currNode.right;
+                    Node previousNodeBeforeVTR = currNode;
+
+                    // find correct valuetoReplace to replace with currNode
+                    while (nodeValueToReplace.left != null)
+                    {
+                        previousNodeBeforeVTR = nodeValueToReplace;
+                        nodeValueToReplace = nodeValueToReplace.left;
+                    }
+
+                    // Replacing the value and not the node because of need to maintain the left/right nodes of currNode.
+                    currNode.Value = nodeValueToReplace.Value;
+
+                    if (previousNodeBeforeVTR == currNode)
+                    {
+                        if (nodeValueToReplace.right != null)
+                        {
+                            previousNodeBeforeVTR.right = nodeValueToReplace.right;
+                        }
+                        else
+                        {
+                            previousNodeBeforeVTR.right = null;
+                        }
+                    }
+                    else
+                    {
+                        if (nodeValueToReplace.right != null)
+                        {
+                            previousNodeBeforeVTR.left = nodeValueToReplace.right;
+                        }
+                        else
+                        {
+                            previousNodeBeforeVTR.left = null;
+                        }
+                    }
+
+                    return true;
+                }
+                // one of right or left is null since we already checked other conditions for both 
+                else if (currNode.left == null || currNode.right == null)
+                {
+                    if (prevNode == null)
+                    {
+                        if (currNode.right != null)
+                            this.root = currNode.right;
+                        else
+                            this.root = currNode.left;
+                    }
+                    else
+                    {
+                        if (prevNode?.right?.Value == val)
+                        {
+                            if (currNode.right != null)
+                            {
+                                prevNode.right = currNode.right;
+                            }
+                            else
+                            {
+                                prevNode.right = currNode.left;
+                            }
+                        }
+                        else if (prevNode?.left?.Value == val)
+                        {
+                            if (currNode.right != null)
+                            {
+                                prevNode.left = currNode.right;
+                            }
+                            else
+                            {
+                                prevNode.left = currNode.left;
+                            }
+                        }
+                    }
+                    return true;
+                }
+
+                return false;
+            }
+
+            // Find node to remove and also get the previous node
+            (Node prevNode, Node currNode) FindMatchingNodes(Node root, int v)
+            {
+                Node prevNode = null;
+                var currNode = root;
+                while (currNode != null || nodeStack.Count > 0)
+                {
+                    while (currNode != null)
+                    {
+                        nodeStack.Push(currNode);
+
+                        if (currNode.Value == v) return (prevNode, currNode);
+
+                        if (currNode.left != null)
+                            prevNode = currNode;
+
+                        currNode = currNode.left;
+                    }
+
+                    currNode = nodeStack.Pop();
+
+                    if (currNode.right != null)
+                        prevNode = currNode;
+
+                    currNode = currNode.right;
+                }
+                return (null, null);
+            }
         }
         #endregion
     }

@@ -59,12 +59,18 @@ namespace BinarySearchTreeTestApplicationNamespace
             Console.WriteLine("Preorder Iteratively:");
             bst.DisplayPreOrderIteratively();
             Console.WriteLine();
+            Console.WriteLine("contains 8: " + bst.ContainsIteratively(11));
+
+            bst.RemoveIteratively(11);
+
+            Console.WriteLine("contains 8: " + bst.ContainsIteratively(11));
+            Console.WriteLine();
             Console.WriteLine("Postorder Iteratively:");
             bst.DisplayPostOrderIteratively();
             Console.WriteLine();
 
 
-            Console.WriteLine(bst.ContainsIteratively(14));
+            Console.WriteLine(bst.ContainsIteratively(6));
             Console.WriteLine(bst.ContainsIteratively(8));
             Console.WriteLine(bst.ContainsIteratively(1));
             #endregion
