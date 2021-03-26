@@ -12,6 +12,7 @@ namespace BinarySearchTreeDLLNamespace
         void DisplayPreOrderRecursively(Node userRoot = null);
         void DisplayInOrderRecursively(Node userRoot = null);
         void DisplayPostOrderRecursively(Node userRoot = null);
+        void RemoveRecursively(int val);
 
         int MaximumDepthRecursively(Node userRoot = null);
         void ReOrderRecursively(Node userRoot = null);
@@ -699,6 +700,58 @@ namespace BinarySearchTreeDLLNamespace
                     currNode = currNode.right;
                 }
                 return (null, null);
+            }
+        }
+
+        public void RemoveRecursively(int val)
+        {
+            Node node = this.root;
+
+            remove(node, val);
+
+            Node remove(Node n, int v)
+            {
+                if (n == null)
+                    return null;
+
+                if (v < n.Value)
+                {
+                    n.left = remove(n.left, v);
+                }
+                else if (v > n.Value)
+                {
+                    n.right = remove(n.right, v);
+                }
+                // if value matches
+                else
+                {
+                    if (n.left == null)
+                    {
+                        return n.right;
+                    }
+                    else if (n.right == null)
+                    {
+                        return n.left;
+                    }
+
+                    //only set successor value so that the node maintains the left/right structure.
+                    n.Value = getinorderSuccessorValue(n.right);
+
+                    // remove the successor node and set it as right
+                    // setting the value of right incase the inordersuccessor is the first right.
+                    n.right = remove(n.right, n.Value);
+                }
+
+                return n;
+            }
+
+            int getinorderSuccessorValue(Node n)
+            {
+                while (n.left != null)
+                {
+                    n = n.left;
+                }
+                return n.Value;
             }
         }
         #endregion
